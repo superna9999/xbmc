@@ -342,6 +342,8 @@ bool CApplication::OnEvent(XBMC_Event& newEvent)
     case XBMC_TOGGLEFULLSCREEN:
       g_application.ToggleFullscreen();
       break;
+    case XBMC_MINIMIZE:
+      g_application.Minimize();
     default:
       return CServiceBroker::GetInputManager().OnEvent(newEvent);
   }
