@@ -2,7 +2,7 @@
 
 /*
  *      Copyright (C) 2011-2013 Team XBMC
- *      http://www.xbmc.org
+ *      http://xbmc.org
  *
  *  This Program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -23,27 +23,17 @@
 #include <string>
 #include <vector>
 
-#include <linux/fb.h>
-
-#include <EGL/egl.h>
 #include "EGLNativeType.h"
-
-#define EDID_STRUCT_DISPLAY     0x14
-#define EDID_MAXSIZE            512
-#define EDID_HEADERSIZE         8
-
-static const char EDID_HEADER[EDID_HEADERSIZE] = { 0x0, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x0 };
-
-class CEGLNativeTypeIMX : public CEGLNativeType
+class CEGLNativeTypeMali : public CEGLNativeType
 {
 public:
-  CEGLNativeTypeIMX();
-  virtual ~CEGLNativeTypeIMX();
-  virtual std::string GetNativeName() const { return "iMX"; }
+  CEGLNativeTypeMali();
+  virtual ~CEGLNativeTypeMali();
+  virtual std::string GetNativeName() const { return "MaliFB"; };
   virtual bool  CheckCompatibility();
   virtual void  Initialize();
   virtual void  Destroy();
-  virtual int   GetQuirks() { return EGL_QUIRK_RECREATE_DISPLAY_ON_CREATE_WINDOW; }
+  virtual int   GetQuirks() { return EGL_QUIRK_NONE; };
 
   virtual bool  CreateNativeDisplay();
   virtual bool  CreateNativeWindow();
@@ -61,13 +51,6 @@ public:
   virtual bool  ShowWindow(bool show);
 
 protected:
-  bool m_readonly;
-  float m_sar;
   bool ModeToResolution(std::string mode, RESOLUTION_INFO *res) const;
   bool FindMatchingResolution(const RESOLUTION_INFO &res, const std::vector<RESOLUTION_INFO> &resolutions);
-  float GetMonitorSAR();
-
-  EGLNativeDisplayType m_display;
-  EGLNativeWindowType  m_window;
-  uint8_t              m_edid[EDID_MAXSIZE];
 };
